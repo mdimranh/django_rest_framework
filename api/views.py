@@ -43,11 +43,11 @@ def student_create(request):
 		json_data = request.body
 		stream = io.BytesIO(json_data)
 		pythondata = JSONParser().parse(stream)
-		serialized = StudentSerializer(data = pythondata)
-		if serialized.is_valid():
-			serialized.save()
+		serializer = StudentSerializer(data = pythondata)
+		if serializer.is_valid():
+			serializer.save()
 			res = {'msg': 'Data created'}
 			json_data = JSONRenderer().render(res)
 			return HttpResponse(json_data, content_type = 'application/json')
-		json_data = JSONRenderer().render(serialized.errors)
+		json_data = JSONRenderer().render(serializer.errors)
 		return HttpResponse(json_data, content_type = 'application/json')
